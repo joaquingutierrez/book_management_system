@@ -10,3 +10,9 @@ class AuthorService(BaseService):
         if result:
             return result
         print("Error al buscar el autor")
+
+    def getAuthorsByLastNameFirstLetter(self, letter):
+        try:
+            return self.repository.getAuthorsByLastNameFirstLetter(letter)
+        except ValueError as e:
+            print(f"Error al buscar el elemento: {e}")

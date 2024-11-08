@@ -76,6 +76,18 @@ class BaseRepository:
             print(f"Error al leer el archivo: {e}")
         return None
     
+    def getItemById(self, id):
+        try:
+            with open(self.db_path, "rb") as f:
+                s = os.path.getsize(self.db_path)
+                while f.tell() < s:
+                    item = pickle.load(f)
+                    if item.id == id:
+                        return item
+        except Exception as e:
+            print(f"Error al leer el archivo: {e}")
+        return None
+    
     def purge_inactive(self):
         try:
             original = open(self.db_path, "rb")

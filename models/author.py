@@ -1,7 +1,8 @@
 class Author:
-    def __init__ (self, id, name):
+    def __init__ (self, id, first_name, last_name):
         self.id = self.__validateId(id)
-        self.name = self.__validateName(name)
+        self.fist_name = self.__validateName(first_name)
+        self.last_name = self.__validateName(last_name)
         self.is_active = True
 
     

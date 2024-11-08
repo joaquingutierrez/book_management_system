@@ -25,6 +25,7 @@ def menu():
         print("2. Menu de Editoriales")
         print("3. Menu de Autores")
         print("4. Menu de Libros")
+        print("5. Generar Listados")
         print("9. Salir")
         op = int(input('\t\tIngrese número de la opción elegida: '))
 
@@ -36,6 +37,8 @@ def menu():
             authorMenu()
         elif op == 4:
             bookMenu()
+        elif op == 5:
+            listingMenu()
         elif op == 9:
             print("Volviendo al menú principal...")
             break
@@ -304,3 +307,137 @@ def insertAuthors():
             break
         sub_op = input("¿Desea agregar otro autor? S/N")
     return authors
+
+def listingMenu():
+    op = 0
+    while op != 11:
+        print("Menu de Listados")
+        print("1. Listar todos los Autores existentes.")
+        print("2. Listar todos los libros existentes.")
+        print("3. Listar todos los libros de un género determinado.")
+        print("4. Listar todos los libros que posee un autor determinado.")
+        print("5. Listar todos los libros de una editorial determinada.")
+        print("6. Listar todos los libros de una editorial determinada en un rango de años de edición.")
+        print("7. Listar todos los autores de una determinada editorial.")
+        print("8. Listar todos los libros que fueron editados en un determinado año.")
+        print("9. Listar todos los libros de los autores cuyos apellidos comienzan con una letra determinada.")
+        print("10. Listar todos los libros cuyos títulos contengan una palabra determinada.")
+        print("11. Salir")
+        op = int(input('\nIngrese número de la opción elegida: '))
+
+        if op == 1:
+            print("\n\tListar todos los Autores existentes.")
+            authors = author_service.getAll()
+            if not authors:
+                print("No hay autores cargados")
+            else:
+                for author in authors:
+                    print(author)
+
+        elif op == 2:
+            print("\n\tListar todos los libros existentes")
+            books = book_service.getAll()
+            if not books:
+                print("No hay libros cargados")
+            else:
+                for book in books:
+                    print(book)
+
+        elif op == 3:
+            print("\n\tListar todos los libros de un género determinado.")
+            genre_id = input("Ingrese el ID del Género deseado: ")
+            books = book_service.getBooksByGenreId(genre_id)
+            if not books:
+                print("No se encontraron coincidencias")
+            else:
+                for book in books:
+                    print(book)
+
+        elif op == 4:
+            print("\n\tListar todos los libros que posee un autor determinado.")
+            author_id = input("Ingrese el ID del Autor deseado: ")
+            books = book_service.getBooksByAuthorId(author_id)
+            if not books:
+                print("No se encontraron coincidencias")
+            else:
+                for book in books:
+                    print(book)
+
+        elif op == 5:
+            print("\n\tListar todos los libros de una editorial determinada.")
+            editorial_id = input("Ingrese el ID de la Editorial deseada: ")
+            books = book_service.getBooksByEditorialId(editorial_id)
+            if not books:
+                print("No se encontraron coincidencias")
+            else:
+                for book in books:
+                    print(book)
+            
+        elif op == 6:
+            print("\n\tListar todos los libros de una editorial determinada en un rango de años de edición")
+            editorial_id = input("Ingrese el ID de la Editorial deseada: ")
+            start_year = input("Ingrese el año inicial: ")
+            end_year = input("Ingrese el año final: ")
+            books = book_service.getBooksByEditorialIdWithinDateRange(editorial_id, start_year, end_year)
+            if not books:
+                print("No se encontraron coincidencias")
+            else:
+                for book in books:
+                    print(book)
+        
+        elif op == 7:
+            print("\n\tListar todos los autores de una determinada editorial.")
+            editorial_id = input("Ingrese el ID de la Editorial deseada: ")
+            authors_id = book_service.getAuthorsByEditorialId(editorial_id)
+            authors = []
+            for author_id in authors_id:
+                author = author_service.getItemById(author_id)
+                if author not in authors:
+                    authors.append(author)
+            if not authors:
+                print("No se encontraron coincidencias")
+            else:
+                for author in authors:
+                    print(author)
+
+        elif op == 8:
+            print("\n\tListar todos los libros que fueron editados en un determinado año.")
+            edition_year = input("Ingrese el año de la Edición: ")
+            books = book_service.getBooksByYear(edition_year)
+            if not books:
+                print("No se encontraron coincidencias")
+            else:
+                for book in books:
+                    print(book)
+
+        elif op == 9:
+            print("\n\tListar todos los libros de los autores cuyos apellidos comienzan con una letra determinada.")
+            letter = input("Introduzca la primera letra del apellido del autor: ")
+            authors = author_service.getAuthorsByLastNameFirstLetter(letter)
+            books=[]
+            for author in authors:
+                book = book_service.getBooksByAuthorId(author.id)
+                if book not in books:
+                    books.append(book)
+            if not books:
+                print("No se encontraron coincidencias")
+            else:
+                for book in books:
+                    print(book)
+
+        elif op == 10:
+            print("\n\tListar todos los libros cuyos títulos contengan una palabra determinada.")
+            word = input("Introduzca la palabra a buscar: ")
+            books = book_service.getBooksByWord(word)
+            if not books:
+                print("No se encontraron coincidencias")
+            else:
+                for book in books:
+                    print(book)
+
+        elif op == 11:
+            print("Volviendo al menú principal...")
+            break
+
+        else:
+            print("Opción no válida, intente de nuevo.")

@@ -32,3 +32,9 @@ class BaseService:
 
     def purge_inactive(self):
         return self.repository.purge_inactive()
+    
+    def getItemById(self, id):
+        result = self.repository.getItemById(id)
+        if result is not None:
+            return result
+        print("Error, no fue posible encontrar el elemento.")
