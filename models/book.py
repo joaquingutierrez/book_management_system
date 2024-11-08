@@ -1,6 +1,7 @@
 class Book:
 
-    def __init__(self, title, authors, page_count, isbn, edition_year, editorial, genre_id):
+    def __init__(self, id, title, authors, page_count, isbn, edition_year, editorial, genre_id):
+        self.id = self.__validateId(id)
         self.title = self.__validateTitle(title)
         self.authors = self.__validateAuthors(authors)
         self.page_count = self.__validatePageCount(page_count)
@@ -10,6 +11,11 @@ class Book:
         self.genre_id = self.__validateGenreId(genre_id)
         self.is_active = True
 
+    def __validateId(self, id):
+        id = id.strip()
+        if not id.isdigit() or not 1 <= int(id):
+            raise ValueError("El id del género debe ser un número mayor a 1 entero.")
+        return int(id)
     
     def __validateTitle(self, title):
         title = title.strip()
