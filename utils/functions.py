@@ -122,7 +122,7 @@ def editorialMenu():
             id = int(input("Ingrese el id de la Editorial: "))
             while not isinstance(id, int) or not int(id) >= 1:
                 print("Por favor, introduzca un número mayor o igual a 1")
-                id = input("Ingrese el id del género: ")
+                id = input("Ingrese el id de la Editorial: ")
             editorial_service.delete(int(id))
         elif op == 3:
             print("\n\tModificar una Editorial")
@@ -136,15 +136,72 @@ def editorialMenu():
                 except Exception as e:
                     print(f"Error al crear la Editorial: {e}")
                 print("Por favor, introduzca un número mayor o igual a 1")
-                id = input("Ingrese el id del género o 0 para salir: ")
+                id = input("Ingrese el id de la Editorial o 0 para salir: ")
         elif op == 4:
             print("Lista de Editoriales")
             editorials = editorial_service.getAll()
             if not editorials:
-                print("No hay géneros carcados")
+                print("No hay Editoriales cargados")
             else:
                 for editorial in editorials:
                     print(editorial)
+        elif op == 5:
+            print("¿Seguro que quiere depurar los datos?")
+            sub_op = input("S/N")
+            if sub_op.upper() == "S":
+                genre_service.purge_inactive()
+        elif op == 9:
+            print("Volviendo al menú principal...")
+            break
+        else:
+            print("Opción no válida, intente de nuevo.")
+
+def authorMenu():
+    op = 0
+    while op != 9:
+        print("Menu de Autores de libros")
+        print("1. Agregar un Autor")
+        print("2. Eliminar un Autor")
+        print("3. Modificar un Autor")
+        print("4. Lista de Autores")
+        print("9. Salir")
+        op = int(input('\nIngrese número de la opción elegida: '))
+
+        if op == 1:
+            print("\n\tAgregar un Autor")
+            name = input("Ingrese el nombre del Autor: ")
+            id = ids_repository.getAuthorId() + 1
+            newAuthor = Author(id, name)
+            author_service.add(newAuthor)
+            ids_repository.updateAuthorId(id)
+        elif op == 2:
+            print("\n\tEliminar un Autor")
+            id = int(input("Ingrese el id del Autor: "))
+            while not isinstance(id, int) or not int(id) >= 1:
+                print("Por favor, introduzca un número mayor o igual a 1")
+                id = input("Ingrese el id del Autor: ")
+            author_service.delete(int(id))
+        elif op == 3:
+            print("\n\tModificar un Autor")
+            id = input("Ingrese el id del Autor o 0 para salir: ")
+            while True and id != 0:
+                newName = input("Ingrese el nuevo nombre del Autor: ")
+                try:
+                    updated_author = Editorial(id, newName)
+                    author_service.update(updated_author)
+                    break
+                except Exception as e:
+                    print(f"Error al crear el Autor: {e}")
+                print("Por favor, introduzca un número mayor o igual a 1")
+                id = input("Ingrese el id del autor o 0 para salir: ")
+        elif op == 4:
+            print("Lista de Autores")
+            authors = author_service.getAll()
+            if not authors:
+                print("No hay autores carcados")
+            else:
+                for author in authors:
+                    print(author)
         elif op == 5:
             print("¿Seguro que quiere depurar los datos?")
             sub_op = input("S/N")
