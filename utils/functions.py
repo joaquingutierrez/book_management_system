@@ -98,3 +98,60 @@ def genreMenu():
             break
         else:
             print("Opción no válida, intente de nuevo.")
+
+def editorialMenu():
+    op = 0
+    while op != 9:
+        print("Menu de Editoriales de libros")
+        print("1. Agregar una Editorial")
+        print("2. Eliminar una Editorial")
+        print("3. Modificar una Editorial")
+        print("4. Lista de Editoriales")
+        print("9. Salir")
+        op = int(input('\nIngrese número de la opción elegida: '))
+
+        if op == 1:
+            print("\n\tAgregar una Editorial")
+            name = input("Ingrese el nombre de la Editorial: ")
+            id = ids_repository.getEditorialId() + 1
+            newEditorial = Editorial(id, name)
+            editorial_service.add(newEditorial)
+            ids_repository.updateEditorialId(id)
+        elif op == 2:
+            print("\n\tEliminar una Editorial")
+            id = int(input("Ingrese el id de la Editorial: "))
+            while not isinstance(id, int) or not int(id) >= 1:
+                print("Por favor, introduzca un número mayor o igual a 1")
+                id = input("Ingrese el id del género: ")
+            editorial_service.delete(int(id))
+        elif op == 3:
+            print("\n\tModificar una Editorial")
+            id = input("Ingrese el id de la editorial o 0 para salir: ")
+            while True and id != 0:
+                newName = input("Ingrese el nuevo nombre de la editorial: ")
+                try:
+                    updated_editorial = Editorial(id, newName)
+                    editorial_service.update(updated_editorial)
+                    break
+                except Exception as e:
+                    print(f"Error al crear la Editorial: {e}")
+                print("Por favor, introduzca un número mayor o igual a 1")
+                id = input("Ingrese el id del género o 0 para salir: ")
+        elif op == 4:
+            print("Lista de Editoriales")
+            editorials = editorial_service.getAll()
+            if not editorials:
+                print("No hay géneros carcados")
+            else:
+                for editorial in editorials:
+                    print(editorial)
+        elif op == 5:
+            print("¿Seguro que quiere depurar los datos?")
+            sub_op = input("S/N")
+            if sub_op.upper() == "S":
+                genre_service.purge_inactive()
+        elif op == 9:
+            print("Volviendo al menú principal...")
+            break
+        else:
+            print("Opción no válida, intente de nuevo.")
