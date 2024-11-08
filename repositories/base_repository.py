@@ -6,6 +6,9 @@ import os.path
 class BaseRepository:
     def __init__ (self, db_path):
         self.db_path = db_path
+        if not os.path.exists(self.db_path):
+            with open(self.db_path, "wb") as f:
+                return
 
     def add(self, item):
         try:
@@ -35,7 +38,7 @@ class BaseRepository:
     def update(self, updated_item):
         try:
             fp = self.searchById(updated_item.id)
-            if not fp:
+            if fp is None:
                 raise Exception(f"ELemento con ID: {updated_item.id} no encontrado.")
             with open(self.db_path, "r+b") as f:
                 f.seek(fp, io.SEEK_SET)
@@ -72,3 +75,19 @@ class BaseRepository:
         except Exception as e:
             print(f"Error al leer el archivo: {e}")
         return None
+    
+    def purge_inactive(self):
+        try:
+            original = open(self.db_path, "rb")
+            temporal = open("temporal", "wb")
+            original_size = os.path.getsize(self.db_path)
+            while original.tell() < original_size:
+                item = pickle.load(original)
+                if item.is_active:
+                    pickle.dump(item, temporal)
+            original.close
+            temporal.close
+            os.remove(self.db_path)
+            os.rename("temporal", self.db_path)
+        except Exception as e:
+            print(f"Error al leer el archivo: {e}")

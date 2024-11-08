@@ -1,6 +1,7 @@
 from repositories.genre_repository import GenreRepository
+from .base_services import BaseService
 
-class BookService:
+class GenreService(BaseService):
     def __init__ (self, db_path):
         super().__init__(GenreRepository(db_path))
 

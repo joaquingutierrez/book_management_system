@@ -17,13 +17,18 @@ class BaseService:
         print("Error al eliminar el elemento")
 
     def update(self, updated_item):
-        result = self.repository.searchById(updated_item.id)
-        if result:
-            return self.repository.update(updated_item)
-        print("Error al actualizar el elemento")
+        try:
+            result = self.repository.searchById(updated_item.id)
+            if result is not None:
+                return self.repository.update(updated_item)
+        except ValueError as e:
+            print(f"Error al actualizar el elemento: {e}")
 
     def getAll(self):
-        result = self.book_repository.getAll()
+        result = self.repository.getAll()
         if result:
             return result
         print("Error, no fue posible cargar los elementos.")
+
+    def purge_inactive(self):
+        return self.repository.purge_inactive()

@@ -8,9 +8,6 @@ from .base_repository import BaseRepository
 class EditorialRepository(BaseRepository):
     def __init__(self, db_path):
         super().__init__(db_path)
-        
-    def __init__ (self, db_path):
-        self.db_path = db_path
 
     def getEditorialByName(self, name):
         try:

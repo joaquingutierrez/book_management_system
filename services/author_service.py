@@ -1,6 +1,7 @@
 from repositories.author_repository import AuthorRepository
+from .base_services import BaseService
 
-class AuthorService:
+class AuthorService(BaseService):
     def __init__ (self, db_path):
         super().__init__(AuthorRepository(db_path))
     

@@ -1,6 +1,7 @@
 from repositories.editorial_repository import EditorialRepository
+from .base_services import BaseService
 
-class BookService:
+class EditorialService(BaseService):
     def __init__ (self, db_path):
         super().__init__(EditorialRepository(db_path))
 

@@ -1,18 +1,17 @@
 class Book:
 
-    def __init__(self, id, title, authors, page_count, isbn, edition_year, editorial, genre_id):
+    def __init__(self, id, title, authors, page_count, isbn, edition_year, editorial_id, genre_id):
         self.id = self.__validateId(id)
         self.title = self.__validateTitle(title)
         self.authors = self.__validateAuthors(authors)
         self.page_count = self.__validatePageCount(page_count)
         self.isbn = self.__validateIsbn(isbn)
         self.edition_year = self.__validateEditionYear(edition_year)
-        self.editorial = self.__validateEditorial(editorial)
+        self.editorial = self.__validateId(editorial_id)
         self.genre_id = self.__validateGenreId(genre_id)
         self.is_active = True
 
     def __validateId(self, id):
-        id = id.strip()
         if not id.isdigit() or not 1 <= int(id):
             raise ValueError("El id del género debe ser un número mayor a 1 entero.")
         return int(id)
@@ -21,17 +20,18 @@ class Book:
         title = title.strip()
         if not isinstance(title, str) or not 4 <= len(title) <= 50:
             raise ValueError("El título debe tener entre 4 y 50 caracteres")
-        return title
+        return title.ljust(50)
 
     def __validateAuthors(self, authors):
         if not isinstance(authors, list) or not (1 <= len(authors) <= 3):
             raise ValueError("La lista de autores debe tener entre 1 y 3 nombres")
         valid_authors = []
         for author in authors:
-            author = author.strip()
-            if not isinstance(author, str) or not (4 <= len(author) <= 30):
-                raise ValueError("El nombre del autor debe tener entre 4 y 30 caracteres")
-            valid_authors.append(author)
+            if not author.isdigit() or not int(author) >= 1:
+                raise ValueError("El id del autor es inválido")
+            valid_authors.append(int(author))
+        for i in range(len(valid_authors), 3):
+            valid_authors.append(0)
         return valid_authors
     
     def __validatePageCount(self, page_count):
@@ -76,18 +76,6 @@ class Book:
         if edition_year < 0:
             raise ValueError("El año de la editorial debe ser mayor a cero")
         return edition_year
-
-    def __validateEditorial(self, editorial):
-        editorial = editorial.strip()
-        if not isinstance(editorial, str) or not 4 <= len(editorial) <= 30:
-            raise ValueError("La editorial debe ser una cadena de entre 4 y 30 caracteres")
-        return editorial
-    
-    def __validateGenreId(self, genre_id):
-        genre_id = genre_id.strip()
-        if not genre_id.isdigit() and not 1 <= int(genre_id):
-            raise ValueError("El id del géro debe ser un número mayor a 1")
-        return int(genre_id)
 
     def __str__ (self):
         return f"{self.title} - Género: {self.genre_id}"

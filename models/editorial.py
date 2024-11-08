@@ -9,7 +9,7 @@ class Editorial:
         name = name.strip()
         if not isinstance(name, str) or not 3 <= len(name) <= 40:
             raise ValueError("El nombre del género debe tener entre 3 y 40 caracteres")
-        return name
+        return name.ljust(40)
     
     def __validateId(self, id):
         id = id.strip()
