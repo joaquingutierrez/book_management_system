@@ -172,9 +172,10 @@ def authorMenu():
 
         if op == 1:
             print("\n\tAgregar un Autor")
-            name = input("Ingrese el nombre del Autor: ")
+            fist_name = input("Ingrese el nombre del Autor: ")
+            last_name = input("Ingrese el apellido del Autor: ")
             id = ids_repository.getAuthorId() + 1
-            newAuthor = Author(id, name)
+            newAuthor = Author(id, fist_name, last_name)
             author_service.add(newAuthor)
             ids_repository.updateAuthorId(id)
         elif op == 2:
