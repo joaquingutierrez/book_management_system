@@ -8,12 +8,13 @@ class Book:
         self.isbn = self.__validateIsbn(isbn)
         self.edition_year = self.__validateEditionYear(edition_year)
         self.editorial = self.__validateId(editorial_id)
-        self.genre_id = self.__validateGenreId(genre_id)
+        self.genre_id = self.__validateId(genre_id)
         self.is_active = True
 
     def __validateId(self, id):
-        if not id.isdigit() or not 1 <= int(id):
-            raise ValueError("El id del género debe ser un número mayor a 1 entero.")
+        if isinstance(id, str):
+            if not id.isdigit() or not 1 <= int(id):
+                raise ValueError("El id del género debe ser un número mayor a 1 entero.")
         return int(id)
     
     def __validateTitle(self, title):

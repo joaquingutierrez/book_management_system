@@ -31,11 +31,11 @@ def menu():
         if op == 1:
             genreMenu()
         elif op == 2:
-            print("Menu de Editoriales")
+            editorialMenu()
         elif op == 3:
-            print("Menu de Autores")
+            authorMenu()
         elif op == 4:
-            print("Menu de Libros")
+            bookMenu()
         elif op == 9:
             print("Volviendo al menú principal...")
             break
@@ -212,3 +212,95 @@ def authorMenu():
             break
         else:
             print("Opción no válida, intente de nuevo.")
+
+def bookMenu():
+    op = 0
+    while op != 9:
+        print("Menu de libros")
+        print("1. Agregar un Libro")
+        print("2. Eliminar un Libro")
+        print("3. Modificar un Libro")
+        print("4. Lista de Libros")
+        print("9. Salir")
+        op = int(input('\nIngrese número de la opción elegida: '))
+
+        if op == 1:
+            print("\n\tAgregar un Libro")
+            createBook()
+        elif op == 2:
+            print("\n\tEliminar un Libro")
+            id = int(input("Ingrese el id del Libro: "))
+            while not isinstance(id, int) or not int(id) >= 1:
+                print("Por favor, introduzca un número mayor o igual a 1")
+                id = input("Ingrese el id del Libro: ")
+            book_service.delete(int(id))
+        elif op == 3:
+            print("\n\tModificar un Libro")
+            id = input("Ingrese el id del Libro o 0 para salir: ")
+            while True:
+                try:
+                    title = input("Ingrese el título del Libro: ")
+                    authors = insertAuthors()
+                    page_count = input("Ingrese la cantidad de páginas del Libro: ")
+                    isbn = input("Ingrese el isbn del Libro: ")
+                    edition_year = input("Ingrese el año de la edición del Libro: ")
+                    editorial_id = input("Ingrese el id de la Editorial del Libro: ")
+                    genre_id = input("Ingrese el ID del Género del Libro: ")
+
+                    updatedBook = Book(id, title, authors, page_count, isbn, edition_year, editorial_id, genre_id)
+                    book_service.update(updatedBook)
+                    break
+                except Exception as e:
+                    print(f"Error al modificar el Libro: {e}")
+        elif op == 4:
+            print("Lista de Libros")
+            books = book_service.getAll()
+            if not books:
+                print("No hay autores carcados")
+            else:
+                for book in books:
+                    print(book)
+        elif op == 5:
+            print("¿Seguro que quiere depurar los datos?")
+            sub_op = input("S/N")
+            if sub_op.upper() == "S":
+                genre_service.purge_inactive()
+        elif op == 9:
+            print("Volviendo al menú principal...")
+            break
+        else:
+            print("Opción no válida, intente de nuevo.")
+
+def createBook():
+    while True:
+        try:
+            title = input("Ingrese el título del Libro: ")
+            authors = insertAuthors()
+            page_count = input("Ingrese la cantidad de páginas del Libro: ")
+            isbn = input("Ingrese el isbn del Libro: ")
+            edition_year = input("Ingrese el año de la edición del Libro: ")
+            editorial_id = input("Ingrese el id de la Editorial del Libro: ")
+            genre_id = input("Ingrese el ID del Género del Libro: ")
+
+            id = ids_repository.getBookId() + 1
+            newBook = Book(id, title, authors, page_count, isbn, edition_year, editorial_id, genre_id)
+            book_service.add(newBook)
+            ids_repository.updateAuthorId(id)
+            break
+        except ValueError as e:
+            print("Error al crear el libro: ", e)
+            print("Por favor, intente ingresar los datos nuevamente.\n")
+
+
+def insertAuthors():
+    authors = []
+    author_id = input("Ingrese el ID del autor.")
+    authors.append(author_id)
+    sub_op = input("¿Desea agregar otro autor? S/N")
+    while sub_op.upper() != "N" or len(authors) <= 3:
+        author_id = input("Ingrese el ID del autor.")
+        authors.append(author_id)
+        if len(authors) == 3:
+            break
+        sub_op = input("¿Desea agregar otro autor? S/N")
+    return authors
