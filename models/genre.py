@@ -1,7 +1,7 @@
 class Genre:
     def __init__ (self, id, name):
         self.id = self.__validateId(id)
-        self.genre = self.__validateGenreName(name)
+        self.name = self.__validateGenreName(name)
         self.is_active = True
 
     

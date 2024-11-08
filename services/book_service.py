@@ -13,7 +13,6 @@ class BookService:
 
     def deleteBook(self, isbn):
         result = self.book_repository.searchBookByIsbn(isbn)
-        print(result)
         if result is not None:
             isbn = self.book_repository.deleteBook(isbn)
             return isbn
