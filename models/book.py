@@ -8,11 +8,13 @@ class Book:
         self.edition_year = self.__validateEditionYear(edition_year)
         self.editorial = self.__validateEditorial(editorial)
         self.genre_id = self.__validateGenreId(genre_id)
+        self.is_active = True
+
     
     def __validateTitle(self, title):
         title = title.strip()
-        if not isinstance(title, str) or not 4 <= len(title) <= 30:
-            raise ValueError("El título debe tener entre 4 y 30 caracteres")
+        if not isinstance(title, str) or not 4 <= len(title) <= 50:
+            raise ValueError("El título debe tener entre 4 y 50 caracteres")
         return title
 
     def __validateAuthors(self, authors):
@@ -45,7 +47,7 @@ class Book:
             control_digit = isbn_numbers[-1]
             if control_digit.isdigit() and (0 <= rest <= 9 and rest == int(control_digit)) or control_digit.upper() == "X":
                 return isbn
-            raise ValueError("El dígito de control es incorrecto.")
+            raise ValueError("El dígito de control es incorrecto para un isbn de 10 digitos.")
 
         elif len(isbn_numbers) == 13 and isbn_numbers.isdigit():
             total = 0
@@ -57,7 +59,7 @@ class Book:
             control_digit = int(isbn_numbers[-1])
             if (10 - total % 10) % 10 == control_digit:
                 return isbn
-            raise ValueError("El dígito de control es incorrecto.")
+            raise ValueError("El dígito de control es incorrecto para un isbn de 13 digitos.")
         else:
             raise ValueError("El ISBN tiene un formato incorrecto.")
 
@@ -82,5 +84,4 @@ class Book:
         return int(genre_id)
 
     def __str__ (self):
-        genre = self.gerGenre()
-        return f"{self.title} - Género: {genre}"
+        return f"{self.title} - Género: {self.genre_id}"

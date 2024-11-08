@@ -2,6 +2,8 @@ class Genre:
     def __init__ (self, id, name):
         self.id = self.__validateId(id)
         self.genre = self.__validateGenreName(name)
+        self.is_active = True
+
     
     def __validateGenreName(self, name):
         name = name.strip()
