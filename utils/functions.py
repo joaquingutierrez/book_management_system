@@ -289,7 +289,7 @@ def createBook():
             id = ids_repository.getBookId() + 1
             newBook = Book(id, title, authors, page_count, isbn, edition_year, editorial_id, genre_id)
             book_service.add(newBook)
-            ids_repository.updateAuthorId(id)
+            ids_repository.updateBookId(id)
             break
         except ValueError as e:
             print("Error al crear el libro: ", e)
@@ -301,7 +301,7 @@ def insertAuthors():
     author_id = input("Ingrese el ID del autor.")
     authors.append(author_id)
     sub_op = input("¿Desea agregar otro autor? S/N")
-    while sub_op.upper() != "N" or len(authors) <= 3:
+    while sub_op.upper() != "N":
         author_id = input("Ingrese el ID del autor.")
         authors.append(author_id)
         if len(authors) == 3:

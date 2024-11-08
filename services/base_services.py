@@ -3,11 +3,14 @@ class BaseService:
         self.repository = repository
     
     def add(self, item):
-        result = self.repository.searchById(item.id)
-        if result is None:
-            id = self.repository.add(item)
-            return id
-        print("Error al agregar el elemento")
+        try:
+            result = self.repository.searchById(item.id)
+            if result is None:
+                id = self.repository.add(item)
+                return id
+            print("Error al agregar el elemento")
+        except Exception as e:
+            print("Error al agregar el elemnto: ", e)
 
     def delete(self, id):
         result = self.repository.searchById(id)

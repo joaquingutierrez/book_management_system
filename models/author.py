@@ -13,7 +13,11 @@ class Author:
         return name.ljust(30)
     
     def __validateId(self, id):
-        id = id.strip()
-        if not id.isdigit() or not 1 <= int(id):
+        if isinstance(id, str):
+            try:
+                id = int(id)
+            except ValueError:
+                raise ValueError("El id debe ser un número entero válido.")
+        if not 1 <= id:
             raise ValueError("El id del género debe ser un número mayor a 1 entero.")
         return int(id)
