@@ -20,3 +20,6 @@ class Editorial:
         if not 1 <= id:
             raise ValueError("El id del género debe ser un número mayor a 1 entero.")
         return int(id)
+    
+    def __str__(self):
+        return f"ID: {self.id} - Editorial: {self.name}"

@@ -346,7 +346,7 @@ def listingMenu():
 
         elif op == 3:
             print("\n\tListar todos los libros de un género determinado.")
-            genre_id = input("Ingrese el ID del Género deseado: ")
+            genre_id = int(input("Ingrese el ID del Género deseado: "))
             books = book_service.getBooksByGenreId(genre_id)
             if not books:
                 print("No se encontraron coincidencias")
@@ -356,7 +356,7 @@ def listingMenu():
 
         elif op == 4:
             print("\n\tListar todos los libros que posee un autor determinado.")
-            author_id = input("Ingrese el ID del Autor deseado: ")
+            author_id = int(input("Ingrese el ID del Autor deseado: "))
             books = book_service.getBooksByAuthorId(author_id)
             if not books:
                 print("No se encontraron coincidencias")
@@ -366,7 +366,7 @@ def listingMenu():
 
         elif op == 5:
             print("\n\tListar todos los libros de una editorial determinada.")
-            editorial_id = input("Ingrese el ID de la Editorial deseada: ")
+            editorial_id = int(input("Ingrese el ID de la Editorial deseada: "))
             books = book_service.getBooksByEditorialId(editorial_id)
             if not books:
                 print("No se encontraron coincidencias")
@@ -376,7 +376,7 @@ def listingMenu():
             
         elif op == 6:
             print("\n\tListar todos los libros de una editorial determinada en un rango de años de edición")
-            editorial_id = input("Ingrese el ID de la Editorial deseada: ")
+            editorial_id = int(input("Ingrese el ID de la Editorial deseada: "))
             start_year = input("Ingrese el año inicial: ")
             end_year = input("Ingrese el año final: ")
             books = book_service.getBooksByEditorialIdWithinDateRange(editorial_id, start_year, end_year)
@@ -388,7 +388,7 @@ def listingMenu():
         
         elif op == 7:
             print("\n\tListar todos los autores de una determinada editorial.")
-            editorial_id = input("Ingrese el ID de la Editorial deseada: ")
+            editorial_id = int(input("Ingrese el ID de la Editorial deseada: "))
             authors_id = book_service.getAuthorsByEditorialId(editorial_id)
             authors = []
             for author_id in authors_id:

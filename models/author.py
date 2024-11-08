@@ -21,3 +21,6 @@ class Author:
         if not 1 <= id:
             raise ValueError("El id del género debe ser un número mayor a 1 entero.")
         return int(id)
+    
+    def __str__(self):
+        return f"ID: {self.id} - Nombre: {self.fist_name} {self.last_name}"

@@ -7,7 +7,7 @@ class Book:
         self.page_count = self.__validatePageCount(page_count)
         self.isbn = self.__validateIsbn(isbn)
         self.edition_year = self.__validateEditionYear(edition_year)
-        self.editorial = self.__validateId(editorial_id)
+        self.editorial_id = self.__validateId(editorial_id)
         self.genre_id = self.__validateId(genre_id)
         self.is_active = True
 
