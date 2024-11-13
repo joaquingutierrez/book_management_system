@@ -97,8 +97,8 @@ class BaseRepository:
                 item = pickle.load(original)
                 if item.is_active:
                     pickle.dump(item, temporal)
-            original.close
-            temporal.close
+            original.close()
+            temporal.close()
             os.remove(self.db_path)
             os.rename("temporal", self.db_path)
         except Exception as e:

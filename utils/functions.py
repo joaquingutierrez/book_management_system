@@ -53,6 +53,7 @@ def genreMenu():
         print("2. Eliminar un Género")
         print("3. Modificar un Género")
         print("4. Lista de Géneros")
+        print("5. Depurar archivo")
         print("9. Salir")
         op = int(input('\nIngrese número de la opción elegida: '))
 
@@ -110,6 +111,7 @@ def editorialMenu():
         print("2. Eliminar una Editorial")
         print("3. Modificar una Editorial")
         print("4. Lista de Editoriales")
+        print("5. Depurar Archivo")
         print("9. Salir")
         op = int(input('\nIngrese número de la opción elegida: '))
 
@@ -152,7 +154,7 @@ def editorialMenu():
             print("¿Seguro que quiere depurar los datos?")
             sub_op = input("S/N")
             if sub_op.upper() == "S":
-                genre_service.purge_inactive()
+                editorial_service.purge_inactive()
         elif op == 9:
             print("Volviendo al menú principal...")
             break
@@ -167,6 +169,7 @@ def authorMenu():
         print("2. Eliminar un Autor")
         print("3. Modificar un Autor")
         print("4. Lista de Autores")
+        print("5. Depurar de Autores")
         print("9. Salir")
         op = int(input('\nIngrese número de la opción elegida: '))
 
@@ -189,9 +192,10 @@ def authorMenu():
             print("\n\tModificar un Autor")
             id = input("Ingrese el id del Autor o 0 para salir: ")
             while True and id != 0:
-                newName = input("Ingrese el nuevo nombre del Autor: ")
+                new_fist_name = input("Ingrese el nombre del Autor: ")
+                new_last_name = input("Ingrese el apellido del Autor: ")
                 try:
-                    updated_author = Editorial(id, newName)
+                    updated_author = Author(id, new_fist_name, new_last_name)
                     author_service.update(updated_author)
                     break
                 except Exception as e:
@@ -210,7 +214,7 @@ def authorMenu():
             print("¿Seguro que quiere depurar los datos?")
             sub_op = input("S/N")
             if sub_op.upper() == "S":
-                genre_service.purge_inactive()
+                author_service.purge_inactive()
         elif op == 9:
             print("Volviendo al menú principal...")
             break
@@ -225,6 +229,7 @@ def bookMenu():
         print("2. Eliminar un Libro")
         print("3. Modificar un Libro")
         print("4. Lista de Libros")
+        print("5. Depurar Archivo")
         print("9. Salir")
         op = int(input('\nIngrese número de la opción elegida: '))
 
@@ -263,12 +268,12 @@ def bookMenu():
                 print("No hay autores carcados")
             else:
                 for book in books:
-                    print(book)
+                    print("id: ", book.id, " - ", book)
         elif op == 5:
             print("¿Seguro que quiere depurar los datos?")
             sub_op = input("S/N")
             if sub_op.upper() == "S":
-                genre_service.purge_inactive()
+                book_service.purge_inactive()
         elif op == 9:
             print("Volviendo al menú principal...")
             break
@@ -342,7 +347,7 @@ def listingMenu():
                 print("No hay libros cargados")
             else:
                 for book in books:
-                    print(book)
+                    print(f"ID: {book.id} {book}")
 
         elif op == 3:
             print("\n\tListar todos los libros de un género determinado.")
@@ -377,8 +382,11 @@ def listingMenu():
         elif op == 6:
             print("\n\tListar todos los libros de una editorial determinada en un rango de años de edición")
             editorial_id = int(input("Ingrese el ID de la Editorial deseada: "))
-            start_year = input("Ingrese el año inicial: ")
-            end_year = input("Ingrese el año final: ")
+            try:
+                start_year = int(input("Ingrese el año inicial: "))
+                end_year = int(input("Ingrese el año final: "))
+            except ValueError as e:
+                print("Error, tipo de dato no valido: ", e)
             books = book_service.getBooksByEditorialIdWithinDateRange(editorial_id, start_year, end_year)
             if not books:
                 print("No se encontraron coincidencias")
@@ -393,7 +401,7 @@ def listingMenu():
             authors = []
             for author_id in authors_id:
                 author = author_service.getItemById(author_id)
-                if author not in authors:
+                if author not in authors and author is not None:
                     authors.append(author)
             if not authors:
                 print("No se encontraron coincidencias")
@@ -403,7 +411,7 @@ def listingMenu():
 
         elif op == 8:
             print("\n\tListar todos los libros que fueron editados en un determinado año.")
-            edition_year = input("Ingrese el año de la Edición: ")
+            edition_year = int(input("Ingrese el año de la Edición: "))
             books = book_service.getBooksByYear(edition_year)
             if not books:
                 print("No se encontraron coincidencias")

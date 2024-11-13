@@ -79,4 +79,9 @@ class Book:
         return edition_year
 
     def __str__ (self):
-        return f"{self.title} - Género: {self.genre_id}"
+        return f"{self.title} - Género: {self.genre_id} \n" \
+                f"Año: {self.edition_year} \n" \
+                f"IDs de los Autores: {self.authors} \n" \
+                f"Nro de Páginas: {self.page_count} \n" \
+                f"ISBN: {self.isbn} \n" \
+                f"ID de la Editorial: {self.editorial_id} \n"

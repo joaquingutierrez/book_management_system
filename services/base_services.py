@@ -40,4 +40,4 @@ class BaseService:
         result = self.repository.getItemById(id)
         if result is not None:
             return result
-        print("Error, no fue posible encontrar el elemento.")
+        return None
