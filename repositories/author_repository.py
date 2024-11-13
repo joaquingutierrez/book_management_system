@@ -28,7 +28,7 @@ class AuthorRepository(BaseRepository):
                 s = os.path.getsize(self.db_path)
                 while f.tell() < s:
                     author = pickle.load(f)
-                    if letter == author.last_name[0]:
+                    if letter.upper() == author.last_name[0].upper():
                         authors.append(author)
             return authors
         except Exception as e:

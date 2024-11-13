@@ -425,9 +425,10 @@ def listingMenu():
             authors = author_service.getAuthorsByLastNameFirstLetter(letter)
             books=[]
             for author in authors:
-                book = book_service.getBooksByAuthorId(author.id)
-                if book not in books:
-                    books.append(book)
+                author_books = book_service.getBooksByAuthorId(author.id)
+                for book in author_books:
+                    if book not in books:
+                        books.append(book)
             if not books:
                 print("No se encontraron coincidencias")
             else:

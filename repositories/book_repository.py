@@ -127,7 +127,7 @@ class BookRepository(BaseRepository):
                 s = os.path.getsize(self.db_path)
                 while f.tell() < s:
                     book = pickle.load(f)
-                    if word in book.title:
+                    if word.upper() in book.title.upper():
                         books.append(book)
             return books
         except Exception as e:
